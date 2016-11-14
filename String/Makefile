@@ -2,7 +2,7 @@ all: test.exe
 
 CXX = g++
 CXXFLAGS = -g -Wall
-RM = rm -rf
+RM = del
 
 test.exe:main.o String.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
