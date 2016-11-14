@@ -33,10 +33,10 @@ namespace enyan{
 
 	String& String::operator=(const String &rs){
 		// 传入的参数是自己本身直接返回
-		if (&rs != this)
-			duplicate(rs.s);
+		if (&rs == this)
+			return *this;
 
-		return *this;
+		return operator=(rs.s);
 	}
 	String& String::operator=(const char *cp){
 		// 先复制再释放旧内存， 保证在当cp == this->s 时能够正确复制
