@@ -10,7 +10,7 @@ struct stack {
 };
 
 struct stack *stack_init(int size);
-void stack_destory(struct stack *p_stack);
+void stack_destroy(struct stack *p_stack);
 void stack_push(struct stack *p_stack, element_t *element);
 element_t *stack_top(struct stack *p_stack);
 void stack_pop(struct stack *p_stack);

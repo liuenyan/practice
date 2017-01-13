@@ -24,7 +24,7 @@ struct stack *stack_init(int size)
 }
 
 /*销毁一个堆栈结构体*/
-void stack_destory(struct stack *p_stack)
+void stack_destroy(struct stack *p_stack)
 {
     assert(p_stack != NULL);
     free(p_stack->array);

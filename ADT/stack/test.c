@@ -21,6 +21,6 @@ int main()
         stack_pop(ps);
         PRINT_STACK_STATUS(ps);
     }
-    stack_destory(ps);
+    stack_destroy(ps);
     return 0;
 }
