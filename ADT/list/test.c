@@ -8,7 +8,7 @@ void print_list(struct list *lst)
 
     struct list_node *p;
     for(p=lst->head; p; p=p->next) {
-        printf("%d%s", *((int *)p->data), p==list_tail(lst)? "" : "->");
+        printf("%d%s", *((int *)p->data), list_is_tail(lst,p)? "" : "->");
     }
     printf("\n");
 }
