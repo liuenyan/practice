@@ -1,14 +1,14 @@
-all: test.exe
+all: test
 
 CXX = g++
 CXXFLAGS = -g -Wall
-RM = del
+RM = rm -r
 
-test.exe:main.o String.o
+test:main.o String.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-.o:.cc
+%.o:%.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	$(RM) *.o test.exe
+	$(RM) *.o test
