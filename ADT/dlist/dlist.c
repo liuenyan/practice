@@ -99,6 +99,7 @@ int dlist_ins_next(struct dlist *dlist, struct dlist_node *node, const void *dat
 /*删除一个节点*/
 int dlist_remove(struct dlist *dlist, struct dlist_node *node, void **data)
 {
+    if(dlist==NULL) return -1;
     *data = node->data;
     /*删除位置不在链表头部*/
     if(node->prev) {
