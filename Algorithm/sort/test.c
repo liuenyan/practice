@@ -34,10 +34,10 @@ int main()
 {
     printf("test insertion_sort:\n");
     test_sort(insertion_sort);
-    
+
     printf("test heap_sort:\n");
     test_sort(heap_sort);
-    
+
     printf("test merge_sort:\n");
     test_sort(merge_sort);
     return 0;
