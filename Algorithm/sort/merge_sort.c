@@ -14,11 +14,11 @@ static void merge(element_t elements[], int p, int q, int r)
     int left_size = q - p + 1;
     int right_size = r - q;
 
-    int *left = malloc(left_size*sizeof(element_t));
-    int *right = malloc(right_size*sizeof(element_t));
+    element_t *left = (element_t *)malloc(left_size*sizeof(element_t));
+    element_t *right = (element_t *)malloc(right_size*sizeof(element_t));
 
-    memcpy(left, &elements[p], sizeof(element_t)*left_size);
-    memcpy(right, &elements[q+1], sizeof(element_t)*right_size);
+    memcpy(left, &elements[p], left_size*sizeof(element_t));
+    memcpy(right, &elements[q+1], right_size*sizeof(element_t));
 
     int i = 0;
     int j = 0;
