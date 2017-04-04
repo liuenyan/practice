@@ -2,8 +2,6 @@
  * 敏捷软件开发,第 13 章中的 Active Object 模式的 C++ 实现
  */
 #include <iostream>
-#include <ctime>
-#include <cassert>
 #include "CommandEngine.h"
 #include "Command.h"
 #include "DelayedTyper.h"

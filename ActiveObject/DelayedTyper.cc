@@ -1,6 +1,5 @@
 #include <iostream>
 #include "DelayedTyper.h"
-#include "SleepCommand.h"
 
 void DelayedTyper::run()
 {
