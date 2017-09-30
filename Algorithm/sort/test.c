@@ -40,5 +40,8 @@ int main()
 
     printf("test merge_sort:\n");
     test_sort(merge_sort);
+
+    printf("test quick_sort:\n");
+    test_sort(quick_sort);
     return 0;
 }
