@@ -46,7 +46,7 @@ void BST_postorder_walk(struct TreeNode* node,
 }
 
 /**
- * 查找从当前节点克开始最小值
+ * 查找从当前节点开始最小值
  */
 struct TreeNode* BST_minium(struct TreeNode* node)
 {
@@ -61,7 +61,7 @@ struct TreeNode* BST_minium(struct TreeNode* node)
     return p;
 }
 
-/*查找从当前节点克开始最大值*/
+/*查找从当前节点开始最大值*/
 struct TreeNode* BST_maxium(struct TreeNode* node)
 {
     if (node == NULL) {
@@ -169,7 +169,7 @@ struct TreeNode* BST_remove(struct BST* tree, struct TreeNode* del_node)
     } else {
         struct TreeNode* min_node = BST_minium(del_node->right);
         assert(min_node);
-        if (min_node->parent == del_node) {
+        if (min_node->parent != del_node) {
             BST_transplant(tree, min_node, min_node->right);
             min_node->right = del_node->right;
             min_node->right->parent = min_node;
