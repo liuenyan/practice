@@ -13,7 +13,6 @@ struct SplayTree {
 };
 
 struct SplayTree* SplayTree_new(int (*compare)(void*, void*), void (*free_data)(void*));
-struct SplayTreeNode* SplayTree_new_node(struct SplayTree* tree, void* data);
 int SplayTree_insert(struct SplayTree* tree, void* data);
 int SplayTree_remove(struct SplayTree* tree, void* data);
 struct SplayTreeNode* SplayTree_find(struct SplayTree* tree, void* data);

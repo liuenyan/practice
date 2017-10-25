@@ -13,7 +13,7 @@ struct SplayTree* SplayTree_new(int (*compare)(void*, void*), void (*free_data)(
     return tree;
 }
 
-struct SplayTreeNode* SplayTree_new_node(struct SplayTree* tree, void* data)
+struct SplayTreeNode* SplayTree_new_node(void* data)
 {
     struct SplayTreeNode* node = malloc(sizeof(*node));
     if (!node) {
@@ -109,12 +109,10 @@ int SplayTree_insert(struct SplayTree* tree, void* data)
 {
     struct SplayTreeNode* new_node = NULL;
     if (tree->root == NULL) {
-        new_node = malloc(sizeof(*new_node));
+        new_node = SplayTree_new_node(data);
         if (!new_node) {
             return -1;
         }
-        new_node->data = data;
-        new_node->left = new_node->right = NULL;
         tree->root = new_node;
     } else {
         tree->root = splay(tree, tree->root, data);
@@ -122,22 +120,20 @@ int SplayTree_insert(struct SplayTree* tree, void* data)
         if (r == 0) {
             return 0;
         }
-        new_node = malloc(sizeof(*new_node));
+        new_node = SplayTree_new_node(data);
         if (!new_node) {
             return -1;
         }
-        new_node->data = data;
         if (r < 0) {
             new_node->left = tree->root->left;
             new_node->right = tree->root;
             tree->root->left = NULL;
-            tree->root = new_node;
         } else {
             new_node->right = tree->root->right;
             new_node->left = tree->root;
             tree->root->right = NULL;
-            tree->root = new_node;
         }
+        tree->root = new_node;
     }
     return 0;
 }
