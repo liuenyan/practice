@@ -103,29 +103,26 @@ int scapegoat_tree_insert(struct scapegoat_tree* tree, void* data)
             current = current->right;
         }
     }
-    // 插入新节点
+    // 创建新节点
     struct scapegoat_node* new_node = scapegoat_node_new(data);
     if (new_node == NULL) {
         return -1;
     }
-
+    // 增加计数
+    tree->size += 1;
+    tree->max_size += 1;
     // 二叉树为空
     if(tree->root == NULL) {
         tree->root = new_node;
-        tree->size += 1;
-        tree->max_size += 1;
         return 0;
     }
-
+    // 二叉树不空
     if (r < 0) {
         previous->left = new_node;
     } else {
         previous->right = new_node;
     }
     new_node->parent = previous;
-
-    tree->size += 1;
-    tree->max_size += 1;
 
     //回溯并更新size信息, 同时找到需要进行重构的节点
     struct scapegoat_node* scapegoat = NULL;
