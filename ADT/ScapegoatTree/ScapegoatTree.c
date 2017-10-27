@@ -87,17 +87,6 @@ static void rebuild(struct scapegoat_tree* tree, struct scapegoat_node* node)
 
 int scapegoat_tree_insert(struct scapegoat_tree* tree, void* data)
 {
-    // 二叉树为空
-    if (tree->root == NULL) {
-        tree->root = scapegoat_node_new(data);
-        if (tree->root == NULL) {
-            return -1;
-        } else {
-            tree->size += 1;
-            tree->max_size += 1;
-            return 0;
-        }
-    }
     // 查找一个插入的位置
     struct scapegoat_node* previous = NULL;
     struct scapegoat_node* current = tree->root;
@@ -119,6 +108,15 @@ int scapegoat_tree_insert(struct scapegoat_tree* tree, void* data)
     if (new_node == NULL) {
         return -1;
     }
+
+    // 二叉树为空
+    if(tree->root == NULL) {
+        tree->root = new_node;
+        tree->size += 1;
+        tree->max_size += 1;
+        return 0;
+    }
+
     if (r < 0) {
         previous->left = new_node;
     } else {
@@ -134,7 +132,7 @@ int scapegoat_tree_insert(struct scapegoat_tree* tree, void* data)
     for (struct scapegoat_node* p = new_node; p->parent != NULL; p = p->parent) {
         p->parent->size += 1;
         if (p->size >= p->parent->size * SCAPEGOAT_ALPHA) {
-            scapegoat = p;
+            scapegoat = p->parent;
         }
     }
     //重建二叉树
