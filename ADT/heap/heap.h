@@ -13,4 +13,6 @@ void heap_delete(struct heap* heap);
 int heap_insert(struct heap* heap, void* data);
 int heap_extract(struct heap* heap, void** data);
 
+#define heap_size(heap) ((heap)->size)
+
 #endif

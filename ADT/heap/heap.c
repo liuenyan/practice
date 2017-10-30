@@ -1,9 +1,9 @@
 #include "heap.h"
 #include <stdlib.h>
 
-#define PARENT(i) ((i-1)/2)
-#define LEFT(i) (2*(i)+ 1)
-#define RIGHT(i) (2*(i)+ 2)
+#define PARENT(i) (((i)-1)/2)
+#define LEFT(i) ((2*(i))+ 1)
+#define RIGHT(i) ((2*(i))+ 2)
 
 struct heap* heap_new(int (*compare)(void*, void*), void (*destroy)(void*))
 {
