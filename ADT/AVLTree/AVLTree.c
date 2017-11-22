@@ -21,7 +21,7 @@ struct AVLTree* AVLTree_new(
 }
 
 // 创建新节点
-static struct AVLTreeNode* AVLTreeNode_new(void* key, void* value)
+static struct AVLTreeNode* AVLTreeNode_create(void* key, void* value)
 {
     struct AVLTreeNode* node = malloc(sizeof(*node));
     if (!node)
@@ -31,6 +31,17 @@ static struct AVLTreeNode* AVLTreeNode_new(void* key, void* value)
     node->height = 0;
     node->left = node->right = NULL;
     return node;
+}
+
+static void AVLTreeNode_free(struct AVLTree* tree, struct AVLTreeNode* node)
+{
+    if (tree->free_key) {
+        tree->free_key(node->key);
+    }
+    if (tree->free_value) {
+        tree->free_value(node->value);
+    }
+    free(node);
 }
 
 // 计算树的高度
@@ -81,11 +92,10 @@ static struct AVLTreeNode* rotate_right(struct AVLTreeNode* x)
 }
 
 // 重新平衡二叉树
-static struct AVLTreeNode* balance(
-    struct AVLTree* tree, struct AVLTreeNode* root, void* key)
+static struct AVLTreeNode* balance(struct AVLTreeNode* root)
 {
-    int f1 = factor(root);
-    if (f1 > 1) {
+    int f = factor(root);
+    if (f > 1) {
         // left heavy
         if (factor(root->left) < 0) {
             // left right
@@ -93,7 +103,7 @@ static struct AVLTreeNode* balance(
         }
         // left left
         root = rotate_right(root);
-    } else if (f1 < -1) {
+    } else if (f < -1) {
         // right heavy
         if (factor(root->right) > 0) {
             // right left
@@ -105,11 +115,11 @@ static struct AVLTreeNode* balance(
     return root;
 }
 
-static struct AVLTreeNode* insert(
+static struct AVLTreeNode* insert_node(
     struct AVLTree* tree, struct AVLTreeNode* root, void* key, void* value)
 {
     if (root == NULL) {
-        struct AVLTreeNode* node = AVLTreeNode_new(key, value);
+        struct AVLTreeNode* node = AVLTreeNode_create(key, value);
         assert(node);
         return node;
     }
@@ -124,17 +134,75 @@ static struct AVLTreeNode* insert(
         }
         return root;
     } else if (cmp < 0) {
-        root->left = insert(tree, root->left, key, value);
+        root->left = insert_node(tree, root->left, key, value);
     } else {
-        root->right = insert(tree, root->right, key, value);
+        root->right = insert_node(tree, root->right, key, value);
     }
     root->height = update_height(root);
-    return balance(tree, root, key);
+    return balance(root);
 }
 
 void AVLTree_insert(struct AVLTree* tree, void* key, void* value)
 {
-    tree->root = insert(tree, tree->root, key, value);
+    tree->root = insert_node(tree, tree->root, key, value);
+}
+
+static struct AVLTreeNode* AVLTree_min(struct AVLTreeNode* node)
+{
+    while (node && node->left) {
+        node = node->left;
+    }
+    return node;
+}
+
+static struct AVLTreeNode* remove_min(struct AVLTreeNode* node)
+{
+    if (node->left == NULL) {
+        // 找到被删除的最左节点, 使用它的右节点替换他
+        return node->right;
+    }
+    node->left = remove_min(node->left);
+    node->height = update_height(node);
+    return balance(node);
+}
+
+struct AVLTreeNode* remove_node(
+    struct AVLTree* tree, struct AVLTreeNode* root, void* key, struct AVLTreeNode** del)
+{
+    int cmp = tree->compare(key, root->key);
+    if (cmp < 0) {
+        root->left = remove_node(tree, root->left, key, del);
+    } else if (cmp > 0) {
+        root->right = remove_node(tree, root->right, key, del);
+    } else {
+        // 找到此节点，进行删除操作
+        *del = root;
+        if (root->left == NULL) {
+            return root->right;
+        } else if (root->right == NULL) {
+            return root->left;
+        } else {
+            // 找到右子节点的最左节点, 这个节点将会代替被删除的节点
+            struct AVLTreeNode* x = AVLTree_min(root->right);
+            x->right = remove_min(root->right);
+            x->left = root->left;
+            root = x;
+        }
+    }
+    root->height = update_height(root);
+    return balance(root);
+}
+
+int AVLTree_remove(struct AVLTree* tree, void* key)
+{
+    struct AVLTreeNode* free_node = NULL;
+    void *value = NULL;
+    if(AVLTree_find(tree, key, &value) == -1) {
+        return -1;
+    }
+    tree->root = remove_node(tree, tree->root, key, &free_node);
+    AVLTreeNode_free(tree, free_node);
+    return 0;
 }
 
 /**
@@ -155,14 +223,6 @@ int AVLTree_find(struct AVLTree* tree, void* key, void** value)
         }
     }
     return -1;
-}
-
-struct AVLTreeNode* AVLTree_min(struct AVLTreeNode* node)
-{
-    while (node && node->left) {
-        node = node->left;
-    }
-    return node;
 }
 
 void AVLTree_inorder_walk(struct AVLTreeNode* node,

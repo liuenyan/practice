@@ -1,5 +1,5 @@
 #ifndef AVLTREE_H_INCLUDED
-#define AVLTREE_H_INCLUDED 1
+#define AVLTREE_H_INCLUDED
 
 struct AVLTreeNode {
     void* key;
@@ -22,9 +22,9 @@ struct AVLTree* AVLTree_new(
     void (*free_value)(void* value));
 
 void AVLTree_insert(struct AVLTree* tree, void* key, void* value);
-int AVLTree_find(struct AVLTree* tree, void* key, void** value);
+int AVLTree_remove(struct AVLTree* tree, void* key);
 
-struct AVLTreeNode* AVLTree_min(struct AVLTreeNode* node);
+int AVLTree_find(struct AVLTree* tree, void* key, void** value);
 
 void AVLTree_inorder_walk(struct AVLTreeNode* node,
     void (*callback)(struct AVLTreeNode*, void*), void* userp);

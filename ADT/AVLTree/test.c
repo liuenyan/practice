@@ -39,5 +39,11 @@ int main()
         AVLTree_insert(tree, data[i], NULL);
     }
     AVLTree_inorder_walk(tree->root, print, NULL);
+    printf("----\n");
+    for(int i = 0; i < (int)(sizeof(data)/sizeof(char*)); i++) {
+        AVLTree_remove(tree, data[i]);
+        AVLTree_inorder_walk(tree->root, print, NULL);
+        printf("----\n");
+    }
     return 0;
 }
