@@ -1,23 +1,23 @@
+#include "AVLTree.h"
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-#include "AVLTree.h"
 
-int compare(struct AVLTreeNode *p1, struct AVLTreeNode *p2)
+int compare(void* p1, void* p2)
 {
-    return strcmp(p1->data, p2->data);
+    return strcmp(p1, p2);
 }
 
-void print(struct AVLTreeNode *node, void *userp)
+void print(struct AVLTreeNode* node, void* userp)
 {
     (void)userp;
-    printf("%s %d\n", (char *)node->data, node->height);
+    printf("%s %d\n", (char*)node->key, node->height);
 }
 
 int main()
 {
-    char *data[] = {
+    char* data[] = {
         "pear",
         "apple",
         "banana",
@@ -32,12 +32,11 @@ int main()
         "shoulder",
         "tcp"
     };
-    struct AVLTree *tree = AVLTree_new(compare);
+    struct AVLTree* tree = AVLTree_new(compare, NULL, NULL);
     assert(tree);
 
-    for(int i = 0; i < (int)(sizeof(data)/sizeof(char *)); i++) {
-        struct AVLTreeNode *node = AVLTreeNode_new(data[i]);
-        AVLTree_insert(tree, node);
+    for (int i = 0; i < (int)(sizeof(data) / sizeof(char*)); i++) {
+        AVLTree_insert(tree, data[i], NULL);
     }
     AVLTree_inorder_walk(tree->root, print, NULL);
     return 0;

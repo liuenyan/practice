@@ -2,7 +2,8 @@
 #define AVLTREE_H_INCLUDED 1
 
 struct AVLTreeNode {
-    void* data;
+    void* key;
+    void* value;
     int height;
     struct AVLTreeNode* left;
     struct AVLTreeNode* right;
@@ -10,18 +11,20 @@ struct AVLTreeNode {
 
 struct AVLTree {
     struct AVLTreeNode* root;
-    int (*compare)(struct AVLTreeNode* p1, struct AVLTreeNode* p2);
+    int (*compare)(void* key1, void* key2);
+    void (*free_key)(void* key);
+    void (*free_value)(void* value);
 };
 
-struct AVLTreeNode* AVLTreeNode_new(void* data);
 struct AVLTree* AVLTree_new(
-    int (*compare)(struct AVLTreeNode* p1, struct AVLTreeNode* p2));
-void AVLTree_insert(struct AVLTree* tree, struct AVLTreeNode* node);
+    int (*compare)(void* key1, void* key2),
+    void (*free_key)(void* key),
+    void (*free_value)(void* value));
 
-struct AVLTreeNode* AVLTree_find(
-    struct AVLTree* tree, struct AVLTreeNode* node);
+void AVLTree_insert(struct AVLTree* tree, void* key, void* value);
+int AVLTree_find(struct AVLTree* tree, void* key, void** value);
 
-struct AVLTreeNode* AVLTree_min(struct AVLTreeNode *node);
+struct AVLTreeNode* AVLTree_min(struct AVLTreeNode* node);
 
 void AVLTree_inorder_walk(struct AVLTreeNode* node,
     void (*callback)(struct AVLTreeNode*, void*), void* userp);

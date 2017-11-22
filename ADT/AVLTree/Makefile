@@ -11,7 +11,7 @@ test_avl: test.o AVLTree.o
 	$(CC) $(CFLAGS) -o $@ $+
 
 clean:
-	rm -f *.o core.*
+	rm -f *.o core.* *.stackdump
 
 mrproper: clean
 	rm -f test_avl
