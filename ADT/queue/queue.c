@@ -51,7 +51,7 @@ int queue_enqueue(struct queue *q, element_t *element)
     memcpy(&node->value, element, sizeof(element_t));
     node->prev = NULL;
     node->next = q->rear;
-    
+
     if(!queue_empty(q)) {
         q->rear->prev = node;
     }
