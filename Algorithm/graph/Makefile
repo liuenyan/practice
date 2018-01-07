@@ -7,7 +7,8 @@ all: test_graph
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-test_graph: test_graph.o graph.o depth_first_search.o depth_first_paths.o
+test_graph: test_graph.o graph.o depth_first_search.o depth_first_paths.o \
+	breadth_first_paths.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
 clean:
