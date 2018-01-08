@@ -8,7 +8,7 @@ all: test_graph
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 test_graph: test_graph.o graph.o depth_first_search.o depth_first_paths.o \
-	breadth_first_paths.o
+	breadth_first_paths.o connected_components.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
 clean:
