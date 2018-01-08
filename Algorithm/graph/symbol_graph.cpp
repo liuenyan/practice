@@ -57,6 +57,11 @@ SymbolGraph::SymbolGraph(const string &filename, const string &delim)
     }
 }
 
+SymbolGraph::~SymbolGraph()
+{
+    delete g_;
+}
+
 bool SymbolGraph::Contains(const std::string &key) const
 {
     return st_.find(key) != st_.end();

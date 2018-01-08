@@ -12,6 +12,7 @@ class SymbolGraph {
     std::vector<std::string> keys_; //索引 符号名
 public:
     SymbolGraph(const std::string &filename, const std::string &delim);
+    ~SymbolGraph();
     bool Contains(const std::string &key) const;
     int Index(const std::string &key) const;
     const std::string &Name(int index) const;
