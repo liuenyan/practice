@@ -6,6 +6,7 @@
 #include "breadth_first_paths.h"
 #include "connected_components.h"
 #include "cycle.h"
+#include "two_color.h"
 
 using namespace std;
 
@@ -95,12 +96,21 @@ void test_cycle()
     cout << cycle.HasCycle() << endl;
 }
 
+void test_two_color()
+{
+    ifstream ifs("tinyCG.txt");
+    Graph g(ifs);
+    TwoColor tc(g);
+    cout << tc.IsBipartite() << endl;
+}
+
 int main()
 {
     //test_depth_dirst_search();
     //test_depth_first_paths();
     //test_breadth_first_paths();
     //test_connected_components();
-    test_cycle();
+    //test_cycle();
+    test_two_color();
     return 0;
 }
