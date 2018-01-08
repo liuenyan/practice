@@ -5,6 +5,7 @@
 #include "depth_first_paths.h"
 #include "breadth_first_paths.h"
 #include "connected_components.h"
+#include "cycle.h"
 
 using namespace std;
 
@@ -86,11 +87,20 @@ void test_connected_components()
     }
 }
 
+void test_cycle()
+{
+    ifstream ifs("tinyCG.txt");
+    Graph g(ifs);
+    Cycle cycle(g);
+    cout << cycle.HasCycle() << endl;
+}
+
 int main()
 {
     //test_depth_dirst_search();
     //test_depth_first_paths();
     //test_breadth_first_paths();
-    test_connected_components();
+    //test_connected_components();
+    test_cycle();
     return 0;
 }
