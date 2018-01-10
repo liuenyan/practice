@@ -27,12 +27,12 @@ vector<string> split(const string &s, const string &delim)
 
 SymbolGraph::SymbolGraph(const string &filename, const string &delim)
 {
-    char line[256];
+    string line;
     ifstream ifs(filename);
     int count = 0;
 
     // 创建节点名称和节点编号的对应关系
-    while(ifs.getline(line, 256)) {
+    while(getline(ifs, line)) {
         auto vec = split(line, delim);
         for (auto &key : vec) {
             if (st_.find(key) == st_.end()) {
@@ -47,7 +47,7 @@ SymbolGraph::SymbolGraph(const string &filename, const string &delim)
     ifs.clear();
     ifs.seekg(0, ifs.beg);
     g_ = new Graph(count);
-    while(ifs.getline(line, 256)) {
+    while(getline(ifs, line)) {
        auto vec = split(line, delim);
         int v = st_[vec[0]];
         for (vector<string>::size_type i=1; i<vec.size(); i++) {
