@@ -2,7 +2,7 @@
 CXX = g++
 CXXFLAGS = -g -Wall -std=c++11
 
-all: test_graph test_symbol_graph degree_of_seperation
+all: test_graph test_symbol_graph degree_of_seperation test_directed_dfs
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -16,6 +16,9 @@ test_symbol_graph: test_symbol_graph.o symbol_graph.o graph.o
 
 degree_of_seperation: degree_of_seperation.o symbol_graph.o graph.o \
 	breadth_first_paths.o
+	$(CXX) $(CXXFLAGS) -o $@ $+
+
+test_directed_dfs: test_directed_dfs.o directed_dfs.o digraph.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
 clean:
