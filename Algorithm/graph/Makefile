@@ -2,7 +2,8 @@
 CXX = g++
 CXXFLAGS = -g -Wall -std=c++11
 
-all: test_graph test_symbol_graph degree_of_seperation test_directed_dfs
+all: test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
+	test_topological
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -21,8 +22,13 @@ degree_of_seperation: degree_of_seperation.o symbol_graph.o graph.o \
 test_directed_dfs: test_directed_dfs.o directed_dfs.o digraph.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
+test_topological: test_topological.o digraph.o directed_cycle.o \
+	depth_first_order.o topological.o symbol_digraph.o
+	$(CXX) $(CXXFLAGS) -o $@ $+
+
 clean:
 	rm -f *.o core.*
 
 mrproper: clean
-	rm -f test_graph test_symbol_graph
+	rm -f test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
+	test_topological
