@@ -49,7 +49,7 @@ const vector<shared_ptr<Edge>>& LazyPrimMST::Edges() const
 
 double LazyPrimMST::Weight() const
 {
-    double weight;
+    double weight = 0;
     for (auto e : mst_) {
         weight += e->Weight();
     }

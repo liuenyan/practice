@@ -14,6 +14,11 @@ public:
     int Other(int vertex) const;
     double Weight() const { return weight_; };
     int Compare(const Edge& that) const;
+    bool operator<(const Edge & that) const { return Compare(that) < 0; };
+    bool operator>=(const Edge & that) const { return !operator<(that); };
+    bool operator>(const Edge& that) const { return Compare(that) > 0; };
+    bool operator<=(const Edge& that) const { return !operator>(that); };
+    bool operator==(const Edge& that ) const { return Compare(that) == 0; };
 
     friend std::ostream& operator<<(std::ostream& os, const Edge& edge);
 };
