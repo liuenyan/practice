@@ -3,7 +3,8 @@ CXX = g++
 CXXFLAGS = -g -Wall -std=c++11
 
 all: test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
-	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst
+	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst \
+	test_kruskal_mst
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -37,9 +38,14 @@ test_lazy_prim_mst: test_lazy_prim_mst.o edge_weighted_graph.o edge.o \
 test_prim_mst: test_prim_mst.o edge_weighted_graph.o edge.o prim_mst.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
+test_kruskal_mst:test_kruskal_mst.o kruskal_mst.o union_find.o \
+	edge.o edge_weighted_graph.o
+	$(CXX) $(CXXFLAGS) -o $@ $+
+
 clean:
 	rm -f *.o core.*
 
 mrproper: clean
 	rm -f test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
-	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst
+	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst \
+	test_kruskal_mst
