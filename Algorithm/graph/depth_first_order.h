@@ -2,9 +2,9 @@
 #define DEPTH_FIRST_ORDER_H_INCLUDED
 
 #include "digraph.h"
-#include <vector>
+#include "edge_weighted_digraph.h"
 #include <stack>
-
+#include <vector>
 
 class DepthFirstOrder {
     std::vector<int> pre_;
@@ -14,9 +14,12 @@ class DepthFirstOrder {
     std::vector<int> marked_;
 
     void dfs(const Digraph& g, int v);
+    void dfs(const EdgeWeightedDigraph& g, int v);
+    void makeReversePostOrder();
 
 public:
     explicit DepthFirstOrder(const Digraph& g);
+    explicit DepthFirstOrder(const EdgeWeightedDigraph& g);
     const std::vector<int>& PreOrder() const { return pre_; };
     const std::vector<int>& PostOrder() const { return post_; };
     const std::vector<int>& ReversePostOrder() const { return reverse_post_; };

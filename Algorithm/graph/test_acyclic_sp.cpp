@@ -1,18 +1,18 @@
-#include "dijkstra_sp.h"
+#include "acyclic_sp.h"
 #include <iostream>
-#include <cstdlib>
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
+
     if (argc < 3) {
         return -1;
     }
     ifstream ifs(argv[1]);
     EdgeWeightedDigraph g(ifs);
     int s = atoi(argv[2]);
-    DijkstraSP sp(g, s);
+    AcyclicSP sp(g, s);
 
     for (int v = 0; v < g.V(); v++) {
         cout << s << " to " << v << " (" << sp.DistTo(v) <<"): ";
@@ -23,5 +23,6 @@ int main(int argc, char *argv[])
         }
         cout << endl;
     }
+    return 0;
     return 0;
 }

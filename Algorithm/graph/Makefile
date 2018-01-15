@@ -4,7 +4,7 @@ CXXFLAGS = -g -Wall -std=c++11
 
 all: test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
 	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst \
-	test_kruskal_mst test_dijkstra_sp
+	test_kruskal_mst test_dijkstra_sp test_acyclic_sp
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -24,7 +24,8 @@ test_directed_dfs: test_directed_dfs.o directed_dfs.o digraph.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
 test_topological: test_topological.o digraph.o directed_cycle.o \
-	depth_first_order.o topological.o symbol_digraph.o
+	depth_first_order.o topological.o symbol_digraph.o \
+	edge_weighted_directed_cycle.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
 test_kosaraju_scc: test_kosaraju_scc.o kosaraju_scc.o depth_first_order.o \
@@ -46,10 +47,15 @@ test_dijkstra_sp: test_dijkstra_sp.o dijkstra_sp.o edge_weighted_digraph.o \
 	directed_edge.o
 	$(CXX) $(CXXFLAGS) -o $@ $+
 
+test_acyclic_sp: test_acyclic_sp.o acyclic_sp.o edge_weighted_digraph.o \
+	directed_edge.o directed_cycle.o topological.o depth_first_order.o \
+	edge_weighted_directed_cycle.o
+	$(CXX) $(CXXFLAGS) -o $@ $+
+
 clean:
 	rm -f *.o core.*
 
 mrproper: clean
 	rm -f test_graph test_symbol_graph degree_of_seperation test_directed_dfs \
 	test_topological test_kosaraju_scc test_lazy_prim_mst test_prim_mst \
-	test_kruskal_mst test_dijkstra_sp
+	test_kruskal_mst test_dijkstra_sp test_acyclic_sp
